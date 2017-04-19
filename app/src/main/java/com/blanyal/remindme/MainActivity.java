@@ -347,13 +347,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Class for recycler view items
-        public class ReminderItem {
-            String mTitle;
-            String mDateTime;
-            String mRepeat;
-            String mRepeatNo;
-            String mRepeatType;
-            String mActive;
+        class ReminderItem {
+            public String mTitle;
+            public String mDateTime;
+            public String mRepeat;
+            public String mRepeatNo;
+            public String mRepeatType;
+            public String mActive;
 
             ReminderItem(String Title, String DateTime, String Repeat, String RepeatNo, String RepeatType, String Active) {
                 this.mTitle = Title;
@@ -367,7 +367,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Class to compare date and time so that items are sorted in ascending order
         class DateTimeComparator implements Comparator {
-            DateFormat f = new SimpleDateFormat("dd/mm/yyyy hh:mm");
+            public DateFormat f = new SimpleDateFormat("dd/mm/yyyy hh:mm");
 
             public int compare(Object a, Object b) {
                 String o1 = ((DateTimeSorter)a).getDateTime();
