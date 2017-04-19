@@ -93,10 +93,10 @@ public class BootReceiver extends BroadcastReceiver {
                 }
 
                 // Create a new notification
-                if (mActive.equals("true")) {
-                    if (mRepeat.equals("true")) {
+                if ("true".equals(mActive)) {
+                    if ("true".equals(mRepeat)) {
                         mAlarmReceiver.setRepeatAlarm(context, mCalendar, mReceivedID, mRepeatTime);
-                    } else if (mRepeat.equals("false")) {
+                    } else if ("false".equals(mRepeat)) {
                         mAlarmReceiver.setAlarm(context, mCalendar, mReceivedID);
                     }
                 }
