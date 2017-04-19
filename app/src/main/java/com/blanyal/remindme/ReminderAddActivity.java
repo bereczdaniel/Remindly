@@ -45,7 +45,20 @@ public class ReminderAddActivity extends AppCompatActivity implements
         TimePickerDialog.OnTimeSetListener,
         DatePickerDialog.OnDateSetListener{
 
-    private Toolbar mToolbar;
+    // Values for orientation change
+    private static final String KEY_TITLE = "title_key";
+    private static final String KEY_TIME = "time_key";
+    private static final String KEY_DATE = "date_key";
+    private static final String KEY_REPEAT = "repeat_key";
+    private static final String KEY_REPEAT_NO = "repeat_no_key";
+    private static final String KEY_REPEAT_TYPE = "repeat_type_key";
+    private static final String KEY_ACTIVE = "active_key";
+    // Constant values in milliseconds
+    private static final long milMinute = 60000L;
+    private static final long milHour = 3600000L;
+    private static final long milDay = 86400000L;
+    private static final long milWeek = 604800000L;
+    private static final long milMonth = 2592000000L;
     private EditText mTitleText;
     private TextView mDateText, mTimeText, mRepeatText, mRepeatNoText, mRepeatTypeText;
     private FloatingActionButton mFAB1;
@@ -61,30 +74,13 @@ public class ReminderAddActivity extends AppCompatActivity implements
     private String mRepeatType;
     private String mActive;
 
-    // Values for orientation change
-    private static final String KEY_TITLE = "title_key";
-    private static final String KEY_TIME = "time_key";
-    private static final String KEY_DATE = "date_key";
-    private static final String KEY_REPEAT = "repeat_key";
-    private static final String KEY_REPEAT_NO = "repeat_no_key";
-    private static final String KEY_REPEAT_TYPE = "repeat_type_key";
-    private static final String KEY_ACTIVE = "active_key";
-
-    // Constant values in milliseconds
-    private static final long milMinute = 60000L;
-    private static final long milHour = 3600000L;
-    private static final long milDay = 86400000L;
-    private static final long milWeek = 604800000L;
-    private static final long milMonth = 2592000000L;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_reminder);
 
         // Initialize Views
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mTitleText = (EditText) findViewById(R.id.reminder_title);
         mDateText = (TextView) findViewById(R.id.set_date);
         mTimeText = (TextView) findViewById(R.id.set_time);
@@ -120,7 +116,9 @@ public class ReminderAddActivity extends AppCompatActivity implements
         mTitleText.addTextChangedListener(new TextWatcher() {
 
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // intentionally left blank
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -129,7 +127,9 @@ public class ReminderAddActivity extends AppCompatActivity implements
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+                // intentionally left blank
+            }
         });
 
         // Setup TextViews using reminder values
@@ -169,11 +169,11 @@ public class ReminderAddActivity extends AppCompatActivity implements
         }
 
         // Setup up active buttons
-        if (mActive.equals("false")) {
+        if ("false".equals(mActive)) {
             mFAB1.setVisibility(View.VISIBLE);
             mFAB2.setVisibility(View.GONE);
 
-        } else if (mActive.equals("true")) {
+        } else if ("true".equals(mActive)) {
             mFAB1.setVisibility(View.GONE);
             mFAB2.setVisibility(View.VISIBLE);
         }
@@ -347,23 +347,31 @@ public class ReminderAddActivity extends AppCompatActivity implements
         mCalendar.set(Calendar.SECOND, 0);
 
         // Check repeat type
-        if (mRepeatType.equals("Minute")) {
-            mRepeatTime = Integer.parseInt(mRepeatNo) * milMinute;
-        } else if (mRepeatType.equals("Hour")) {
-            mRepeatTime = Integer.parseInt(mRepeatNo) * milHour;
-        } else if (mRepeatType.equals("Day")) {
-            mRepeatTime = Integer.parseInt(mRepeatNo) * milDay;
-        } else if (mRepeatType.equals("Week")) {
-            mRepeatTime = Integer.parseInt(mRepeatNo) * milWeek;
-        } else if (mRepeatType.equals("Month")) {
-            mRepeatTime = Integer.parseInt(mRepeatNo) * milMonth;
+        switch (mRepeatType) {
+            case "Minute":
+                mRepeatTime = Integer.parseInt(mRepeatNo) * milMinute;
+                break;
+            case "Hour":
+                mRepeatTime = Integer.parseInt(mRepeatNo) * milHour;
+                break;
+            case "Day":
+                mRepeatTime = Integer.parseInt(mRepeatNo) * milDay;
+                break;
+            case "Week":
+                mRepeatTime = Integer.parseInt(mRepeatNo) * milWeek;
+                break;
+            case "Month":
+                mRepeatTime = Integer.parseInt(mRepeatNo) * milMonth;
+                break;
+            default:
+                break;
         }
 
         // Create a new notification
-        if (mActive.equals("true")) {
-            if (mRepeat.equals("true")) {
+        if ("true".equals(mActive)) {
+            if ("true".equals(mRepeat)) {
                 new AlarmReceiver().setRepeatAlarm(getApplicationContext(), mCalendar, ID, mRepeatTime);
-            } else if (mRepeat.equals("false")) {
+            } else if ("false".equals(mRepeat)) {
                 new AlarmReceiver().setAlarm(getApplicationContext(), mCalendar, ID);
             }
         }
