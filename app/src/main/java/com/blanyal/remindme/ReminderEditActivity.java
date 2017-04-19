@@ -46,12 +46,10 @@ public class ReminderEditActivity extends AppCompatActivity implements
         TimePickerDialog.OnTimeSetListener,
         DatePickerDialog.OnDateSetListener{
 
-    private Toolbar mToolbar;
     private EditText mTitleText;
     private TextView mDateText, mTimeText, mRepeatText, mRepeatNoText, mRepeatTypeText;
     private FloatingActionButton mFAB1;
     private FloatingActionButton mFAB2;
-    private Switch mRepeatSwitch;
     private String mTitle;
     private String mTime;
     private String mDate;
@@ -59,8 +57,6 @@ public class ReminderEditActivity extends AppCompatActivity implements
     private String mRepeatType;
     private String mActive;
     private String mRepeat;
-    private String[] mDateSplit;
-    private String[] mTimeSplit;
     private int mReceivedID;
     private int mYear, mMonth, mHour, mMinute, mDay;
     private long mRepeatTime;
@@ -95,7 +91,7 @@ public class ReminderEditActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_add_reminder);
 
         // Initialize Views
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mTitleText = (EditText) findViewById(R.id.reminder_title);
         mDateText = (TextView) findViewById(R.id.set_date);
         mTimeText = (TextView) findViewById(R.id.set_time);
@@ -104,7 +100,7 @@ public class ReminderEditActivity extends AppCompatActivity implements
         mRepeatTypeText = (TextView) findViewById(R.id.set_repeat_type);
         mFAB1 = (FloatingActionButton) findViewById(R.id.starred1);
         mFAB2 = (FloatingActionButton) findViewById(R.id.starred2);
-        mRepeatSwitch = (Switch) findViewById(R.id.repeat_switch);
+        Switch mRepeatSwitch = (Switch) findViewById(R.id.repeat_switch);
 
         // Setup Toolbar
         setSupportActionBar(mToolbar);
@@ -181,21 +177,21 @@ public class ReminderEditActivity extends AppCompatActivity implements
         }
 
         // Setup up active buttons
-        if (mActive.equals("false")) {
+        if ("false".equals(mActive)) {
             mFAB1.setVisibility(View.VISIBLE);
             mFAB2.setVisibility(View.GONE);
 
-        } else if (mActive.equals("true")) {
+        } else if ("true".equals(mActive)) {
             mFAB1.setVisibility(View.GONE);
             mFAB2.setVisibility(View.VISIBLE);
         }
 
         // Setup repeat switch
-        if (mRepeat.equals("false")) {
+        if ("false".equals(mRepeat)) {
             mRepeatSwitch.setChecked(false);
             mRepeatText.setText(R.string.repeat_off);
 
-        } else if (mRepeat.equals("true")) {
+        } else if ("true".equals(mRepeat)) {
             mRepeatSwitch.setChecked(true);
         }
 
@@ -203,8 +199,8 @@ public class ReminderEditActivity extends AppCompatActivity implements
         mCalendar = Calendar.getInstance();
         mAlarmReceiver = new AlarmReceiver();
 
-        mDateSplit = mDate.split("/");
-        mTimeSplit = mTime.split(":");
+        String[] mDateSplit = mDate.split("/");
+        String[] mTimeSplit = mTime.split(":");
 
         mDay = Integer.parseInt(mDateSplit[0]);
         mMonth = Integer.parseInt(mDateSplit[1]);
@@ -396,23 +392,23 @@ public class ReminderEditActivity extends AppCompatActivity implements
         mAlarmReceiver.cancelAlarm(getApplicationContext(), mReceivedID);
 
         // Check repeat type
-        if (mRepeatType.equals("Minute")) {
+        if ("Minute".equals(mRepeatType)) {
             mRepeatTime = Integer.parseInt(mRepeatNo) * milMinute;
-        } else if (mRepeatType.equals("Hour")) {
+        } else if ("Hour".equals(mRepeatType)) {
             mRepeatTime = Integer.parseInt(mRepeatNo) * milHour;
-        } else if (mRepeatType.equals("Day")) {
+        } else if ("Day".equals(mRepeatType)) {
             mRepeatTime = Integer.parseInt(mRepeatNo) * milDay;
-        } else if (mRepeatType.equals("Week")) {
+        } else if ("Week".equals(mRepeatType)) {
             mRepeatTime = Integer.parseInt(mRepeatNo) * milWeek;
-        } else if (mRepeatType.equals("Month")) {
+        } else if ("Month".equals(mRepeatType)) {
             mRepeatTime = Integer.parseInt(mRepeatNo) * milMonth;
         }
 
         // Create a new notification
-        if (mActive.equals("true")) {
-            if (mRepeat.equals("true")) {
+        if ("true".equals(mActive)) {
+            if ("true".equals(mRepeat)) {
                 mAlarmReceiver.setRepeatAlarm(getApplicationContext(), mCalendar, mReceivedID, mRepeatTime);
-            } else if (mRepeat.equals("false")) {
+            } else if ("false".equals(mRepeat)) {
                 mAlarmReceiver.setAlarm(getApplicationContext(), mCalendar, mReceivedID);
             }
         }
