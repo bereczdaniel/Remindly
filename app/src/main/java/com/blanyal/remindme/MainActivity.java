@@ -253,18 +253,18 @@ public class MainActivity extends AppCompatActivity {
             mItems = new ArrayList<>();
         }
 
-        void setItemCount() {
+        public void setItemCount() {
             mItems.clear();
             mItems.addAll(generateData());
             notifyDataSetChanged();
         }
 
-        void onDeleteItem() {
+        public void onDeleteItem() {
             mItems.clear();
             mItems.addAll(generateData());
         }
 
-        void removeItemSelected(int selected) {
+        public void removeItemSelected(int selected) {
             if (mItems.isEmpty()) return;
             mItems.remove(selected);
             notifyItemRemoved(selected);
@@ -294,7 +294,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Generate real data for each item
-        List<ReminderItem> generateData() {
+        public List<ReminderItem> generateData() {
             ArrayList<SimpleAdapter.ReminderItem> items = new ArrayList<>();
 
             // Get all reminders from the database
@@ -347,7 +347,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Class for recycler view items
-        class ReminderItem {
+        public class ReminderItem {
             String mTitle;
             String mDateTime;
             String mRepeat;
@@ -431,7 +431,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             // Set reminder title view
-            void setReminderTitle(String title) {
+            public void setReminderTitle(String title) {
                 mTitleText.setText(title);
                 String letter = "A";
 
@@ -448,12 +448,12 @@ public class MainActivity extends AppCompatActivity {
             }
 
             // Set date and time views
-            void setReminderDateTime(String datetime) {
+            public void setReminderDateTime(String datetime) {
                 mDateAndTimeText.setText(datetime);
             }
 
             // Set repeat views
-            void setReminderRepeatInfo(String repeat, String repeatNo, String repeatType) {
+            public void setReminderRepeatInfo(String repeat, String repeatNo, String repeatType) {
                 if ("true".equals(repeat)) {
                     mRepeatInfoText.setText("Every " + repeatNo + " " + repeatType + "(s)");
                 } else if ("false".equals(repeat)) {
@@ -462,7 +462,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             // Set active image as on or off
-            void setActiveImage(String active) {
+            public void setActiveImage(String active) {
                 if ("true".equals(active)) {
                     mActiveImage.setImageResource(R.drawable.ic_notifications_on_white_24dp);
                 } else if ("false".equals(active)) {
